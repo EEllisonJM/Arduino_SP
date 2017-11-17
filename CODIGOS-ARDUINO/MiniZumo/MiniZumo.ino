@@ -1,10 +1,10 @@
 //Declaracion de variables(pines)
 //cny70
-int cnyI = 10;
-int cnyD = 2;
+int cnyI = 2;//Cafe
+int cnyD = 10;//Azul marino
 //Ultrasónico
-const int pinecho = 11;
-const int pintrigger = 12;
+const int pinecho = 11;//Verde
+const int pintrigger = 12;//azul marino
 //Motor Izquierdo
 int PinIN1 = 7;
 int PinIN2 = 6;
