@@ -1,16 +1,20 @@
-//Declaracion de variables(pines)
-//cny70
-int cnyI = 2;//Cafe
-int cnyD = 10;//Azul marino
-//Ultrasónico
-const int pinecho = 11;//Verde
-const int pintrigger = 12;//azul marino
+/*Declaracion e inicializacion de variables*/
+/*SENSOR OPTICO CNY70*/
+int cnyI = 2;//Color - Cafe
+int cnyD = 10;//Color - Azul
+
+/*SENSOR ULTRASONICO HC-SR04*/
+const int pinecho = 11;//Color - Verde
+const int pintrigger = 12;//Color - Azul
+
+/*MOTORES*/
 //Motor Izquierdo
 int PinIN1 = 7;
 int PinIN2 = 6;
 //Motor Derecho
 int PinIN3 = 9;
 int PinIN4 = 8;
+
 //Declaracion de variables
 int valor_cnyI = 0;
 int valor_cnyD = 0;
@@ -20,10 +24,13 @@ unsigned int tiempo, distancia;
 void setup() 
 {
   Serial.begin(9600);//Inicializar la comunicación serial 
+  
   pinMode(cnyI, INPUT);//Definir el pin como entrada del sensor
   pinMode(cnyD, INPUT);//Definir el pin como entrada del sensor
+  
   pinMode(pinecho, INPUT);
   pinMode(pintrigger, OUTPUT);
+  
   // configuramos los pines como salida
   pinMode(PinIN1, OUTPUT);
   pinMode(PinIN2, OUTPUT);
@@ -52,7 +59,7 @@ void ultrasonico(){
   // ENVIAR EL RESULTADO AL MONITOR SERIAL
   Serial.print(distancia);
   Serial.println(" cm");
-  delay(200);
+  delay(70);
 }
 
 void adelante(){
