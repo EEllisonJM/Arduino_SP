@@ -91,42 +91,45 @@ void rotar(){
 }
 
 void loop() 
-{
+{//Siguiendo la logica del diagrama de flujo
+  /*1. Esperar 5 segundos.*/
+  delay(500);
+  
+  /*2. Leer valor de los sensores opticos CNY70.*/
   valor_cnyI=digitalRead(cnyI);//Leer y almacenar el valor del sensor
   valor_cnyD=digitalRead(cnyD);//Leer y almacenar el valor del sensor
-  delay(50);//Esperar 50 ms 
+  delay(20);//Esperar 50 ms 
+  
   //1=Blanco
   //0=Negro
-  if(valor_cnyD==1&&valor_cnyI==1)
-  {
+  /*3. Si ambos sensores detectan color Blanco*/
+  if(valor_cnyI == 1 && valor_cnyD == 1){
     Serial.print("Linea blanca Ambos\n");//Imprimir en el monitor serial "linea blanca ambos"
     atras();
-    delay(200);
+    delay(50);
     
     rotar();
-    delay(300);
-  } else {
-    if(valor_cnyI==1&&valor_cnyD==0)
-    {
-      Serial.print("Linea blanca Izquierda\n");
-      derecha();
-      delay(200);
-    }
-    if(valor_cnyD==1&&valor_cnyI==0)
-    {
-      Serial.print("Linea blanca Derecha\n");
-      izquierda();
-      delay(200);
-    }
+    delay(50);
+  }
+  /*3. Si sensor izquierdo detecta blanco*/
+  if(valor_cnyI == 1 && valor_cnyD == 0){
+    Serial.print("Linea blanca Izquierda\n");
+    derecha();
+    delay(50);
+  }
+  /*4. Si sensor derecho detecta blanco*/
+  if(valor_cnyD == 1 && valor_cnyI == 0){
+    Serial.print("Linea blanca Derecha\n");
+    izquierda();
+    delay(50);
   }
   
   ultrasonico();
-  
   if (distancia <= 15) {//<= 60) {
     adelante();
-    delay(500);
+    delay(50);
   } else {
     rotar();
-    delay(500);
+    delay(50);
   }
 }
