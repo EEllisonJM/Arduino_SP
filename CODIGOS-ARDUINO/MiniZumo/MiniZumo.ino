@@ -1,4 +1,6 @@
 /*Declaracion e inicializacion de variables*/
+/*Temporizador*/
+bool encendido = false;
 /*SENSOR OPTICO CNY70*/
 int cnyI = 2;//Color - Cafe
 int cnyD = 10;//Color - Azul
@@ -59,7 +61,7 @@ void ultrasonico(){
   // ENVIAR EL RESULTADO AL MONITOR SERIAL
   Serial.print(distancia);
   Serial.println(" cm");
-  delay(30);
+  delay(10);
 }
 
 void adelante(){
@@ -100,7 +102,11 @@ void rotar(){
 void loop() 
 {//Siguiendo la logica del diagrama de flujo
   /*1. Esperar 5 segundos.*/
-  delay(500);
+  //delay(500);
+  if(encendido==false){
+    delay(5000);
+    encendido=true;
+  }
   
   /*2. Leer valor de los sensores opticos CNY70.*/
   valor_cnyI=digitalRead(cnyI);//Leer y almacenar el valor del sensor
@@ -113,7 +119,7 @@ void loop()
   if(valor_cnyI == 1 && valor_cnyD == 1){
     Serial.print("Linea blanca Ambos\n");//Imprimir en el monitor serial "linea blanca ambos"
     atras();
-    delay(30);
+    delay(300);
     
     rotar();
     delay(30);
@@ -123,16 +129,20 @@ void loop()
     Serial.print("Linea blanca Izquierda\n");
     derecha();
     delay(30);
+    atras();
+    delay(300);
   }
   /*4. Si sensor derecho detecta blanco*/
   if(valor_cnyD == 1 && valor_cnyI == 0){
     Serial.print("Linea blanca Derecha\n");
     izquierda();
     delay(30);
+    atras();
+    delay(300);
   }
   
   ultrasonico();
-  if (distancia <= 15) {//<= 60) {
+  if (distancia <= 10) {//<= 60) {
     adelante();
     delay(30);
   } else {
