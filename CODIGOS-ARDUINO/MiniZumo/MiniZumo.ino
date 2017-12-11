@@ -25,7 +25,7 @@ unsigned int tiempo, distancia;
 
 void setup() 
 {
-  Serial.begin(9600);//Inicializar la comunicación serial 
+  //Serial.begin(9600);//Inicializar la comunicación serial 
   
   pinMode(cnyI, INPUT);//Definir el pin como entrada del sensor
   pinMode(cnyD, INPUT);//Definir el pin como entrada del sensor
@@ -102,7 +102,6 @@ void rotar(){
 void loop() 
 {//Siguiendo la logica del diagrama de flujo
   /*1. Esperar 5 segundos.*/
-  //delay(500);
   if(encendido==false){
     delay(5000);
     encendido=true;
@@ -111,38 +110,35 @@ void loop()
   /*2. Leer valor de los sensores opticos CNY70.*/
   valor_cnyI=digitalRead(cnyI);//Leer y almacenar el valor del sensor
   valor_cnyD=digitalRead(cnyD);//Leer y almacenar el valor del sensor
-  delay(20);
   
   //1=Blanco
   //0=Negro
   /*3. Si ambos sensores detectan color Blanco*/
   if(valor_cnyI == 1 && valor_cnyD == 1){
-    Serial.print("Linea blanca Ambos\n");//Imprimir en el monitor serial "linea blanca ambos"
+    //Serial.print("Linea blanca Ambos\n");//Imprimir en el monitor serial "linea blanca ambos"
     atras();
     delay(300);
     
-    rotar();
-    delay(30);
   }
   /*3. Si sensor izquierdo detecta blanco*/
   if(valor_cnyI == 1 && valor_cnyD == 0){
-    Serial.print("Linea blanca Izquierda\n");
-    derecha();
+    //Serial.print("Linea blanca Izquierda\n");
+    izquierda();
     delay(30);
     atras();
     delay(300);
   }
   /*4. Si sensor derecho detecta blanco*/
   if(valor_cnyD == 1 && valor_cnyI == 0){
-    Serial.print("Linea blanca Derecha\n");
-    izquierda();
+    //Serial.print("Linea blanca Derecha\n");
+    derecha();
     delay(30);
     atras();
     delay(300);
   }
   
   ultrasonico();
-  if (distancia <= 10) {//<= 60) {
+  if (distancia <= 20) {//<= 60) {
     adelante();
     delay(30);
   } else {
