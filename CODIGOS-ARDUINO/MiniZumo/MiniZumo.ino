@@ -138,7 +138,7 @@ void loop()
   }
   
   ultrasonico();
-  if (distancia <= 20) {//<= 60) {
+  if (distancia <= 35) {
     adelante();
     delay(30);
   } else {
