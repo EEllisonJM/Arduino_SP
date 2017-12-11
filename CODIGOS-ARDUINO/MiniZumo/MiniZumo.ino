@@ -68,30 +68,30 @@ void adelante(){
   digitalWrite (PinIN1, HIGH);
   digitalWrite (PinIN2, LOW);
 
-  digitalWrite (PinIN3, LOW);
   digitalWrite (PinIN4, HIGH);
+  digitalWrite (PinIN3, LOW);
 }
 
 void atras(){
   digitalWrite (PinIN1, LOW);
   digitalWrite (PinIN2, HIGH);
   
-  digitalWrite (PinIN3, HIGH);
   digitalWrite (PinIN4, LOW);
+  digitalWrite (PinIN3, HIGH);
 }
 
 void izquierda(){
-  digitalWrite (PinIN1, HIGH);
-  digitalWrite (PinIN2, LOW);
-  digitalWrite (PinIN3, HIGH);
-  digitalWrite (PinIN4, LOW);
+  digitalWrite (PinIN1, LOW);
+  digitalWrite (PinIN2, HIGH);
+  digitalWrite (PinIN4, HIGH);
+  digitalWrite (PinIN3, LOW);
 }
 
 void derecha(){
-  digitalWrite (PinIN1, LOW);
-  digitalWrite (PinIN2, HIGH);
-  digitalWrite (PinIN3, LOW);
-  digitalWrite (PinIN4, HIGH);
+  digitalWrite (PinIN1, HIGH);
+  digitalWrite (PinIN2, LOW);
+  digitalWrite (PinIN4, LOW);
+  digitalWrite (PinIN3, HIGH);
 }
 
 void rotar(){
