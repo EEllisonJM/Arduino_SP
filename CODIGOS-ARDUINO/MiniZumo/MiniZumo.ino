@@ -59,8 +59,8 @@ void ultrasonico(){
   distancia = tiempo / 58;
  
   // ENVIAR EL RESULTADO AL MONITOR SERIAL
-  Serial.print(distancia);
-  Serial.println(" cm");
+  //Serial.print(distancia);
+  //Serial.println(" cm");
   delay(10);
 }
 
@@ -124,7 +124,7 @@ void loop()
   if(valor_cnyI == 1 && valor_cnyD == 0){
     //Serial.print("Linea blanca Izquierda\n");
     izquierda();
-    delay(30);
+    delay(60);
     atras();
     delay(300);
   }
@@ -138,7 +138,7 @@ void loop()
   }
   
   ultrasonico();
-  if (distancia <= 35) {
+  if (distancia <= 50 || distancia >= 1000) {
     adelante();
     delay(30);
   } else {
