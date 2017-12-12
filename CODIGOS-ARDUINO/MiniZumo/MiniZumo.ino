@@ -34,9 +34,11 @@ void setup()
   pinMode(pintrigger, OUTPUT);
   
   // configuramos los pines como salida
+  /*MOTOR IZQUIERDO*/
   pinMode(PinIN1, OUTPUT);
   pinMode(PinIN2, OUTPUT);
   // configuramos los pines como salida
+  /*MOTOR DERECHO*/
   pinMode(PinIN3, OUTPUT);
   pinMode(PinIN4, OUTPUT);
 }
@@ -61,7 +63,7 @@ void ultrasonico(){
   // ENVIAR EL RESULTADO AL MONITOR SERIAL
   //Serial.print(distancia);
   //Serial.println(" cm");
-  delay(10);
+  delay(10);//
 }
 
 void adelante(){
@@ -138,7 +140,7 @@ void loop()
   }
   
   ultrasonico();
-  if (distancia <= 50 || distancia >= 1000) {
+  if (distancia <= 50 || distancia > 400) {
     adelante();
     delay(30);
   } else {
