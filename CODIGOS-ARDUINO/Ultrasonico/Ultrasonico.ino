@@ -1,67 +1,63 @@
-/**
-   GeekFactory - "Construye tu propia tecnologia"
-   Distribucion de materiales para el desarrollo e innovacion tecnologica
-   www.geekfactory.mx
- 
-   EJEMPLO SENSOR ULTRASONICO 1
- 
-   REALIZA LA MEDICION DE DISTANCIA CON UN SENSOR ULTRASÓNICO HC-SR04 CONECTADO
-   AL ARDUINO. ESTE EJEMPLO NO UTILIZA LIBRERIAS ESPECIALES PARA EL SENSOR, SOLAMENTE
-   SE UTILIZA LA FUNCION "PULSEIN" PARA MEDIR LA LONGITUD DEL PULSO DE ECO.
-   
-- - - - - - - - - - 
-D12 - Azul marino
-D11 - Verde
-+5V - Rojo
-GND - Negro
-- - - - - - - - - - 
-*/
+/*
+ D12 - Azul marino
+ D11 - Verde
+ +5V - Rojo
+ GND - Negro
+ */
+const int pinOUT_Trigger = 12;
+const int pinIN_Echo = 11;
+long tiempo_ida_y_vuelta;
 
-// DECLARACION DE VARIABLES PARA PINES
-const int pinecho = 11;
-const int pintrigger = 12;
-//const int pinled = 13;
- 
-// VARIABLES PARA CALCULOS
-unsigned int tiempo, distancia;
- 
 void setup() {
-  // PREPARAR LA COMUNICACION SERIAL
-  Serial.begin(9600);
-  // CONFIGURAR PINES DE ENTRADA Y SALIDA
-  pinMode(pinecho, INPUT);
-  pinMode(pintrigger, OUTPUT);
-  //pinMode(13, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  pinMode(pinOUT_Trigger, OUTPUT);
+  pinMode(pinIN_Echo, INPUT);
+  Serial.begin(9600); // Starts the serial communication
 }
- 
 void loop() {
-  // ENVIAR PULSO DE DISPARO EN EL PIN "TRIGGER"
-  digitalWrite(pintrigger, LOW);
-  delayMicroseconds(2);
-  digitalWrite(pintrigger, HIGH);
-  
-  // EL PULSO DURA AL MENOS 10 uS EN ESTADO ALTO
-  delayMicroseconds(10);
-  digitalWrite(pintrigger, LOW);
- 
-  // MEDIR EL TIEMPO EN ESTADO ALTO DEL PIN "ECHO" EL PULSO ES PROPORCIONAL A LA DISTANCIA MEDIDA
-  tiempo = pulseIn(pinecho, HIGH);
- 
-  // LA VELOCIDAD DEL SONIDO ES DE 340 M/S O 29 MICROSEGUNDOS POR CENTIMETRO
-  // DIVIDIMOS EL TIEMPO DEL PULSO ENTRE 58, TIEMPO QUE TARDA RECORRER IDA Y VUELTA UN CENTIMETRO LA ONDA SONORA
-  distancia = tiempo / 58;
- 
-  // ENVIAR EL RESULTADO AL MONITOR SERIAL
+  long distancia=CalcularDistanciaUltrasonico();
+  Serial.print("Distancia: ");
   Serial.print(distancia);
   Serial.println(" cm");
-  delay(200);
- 
-  // ENCENDER EL LED CUANDO SE CUMPLA CON CIERTA DISTANCIA
-  if (distancia <= 10) {//<= 60) {
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(500);
-  } else {
-    digitalWrite(LED_BUILTIN, LOW);
-  }
 }
+long CalcularDistanciaUltrasonico(){
+  // Clears the pinOUT_Trigger
+  digitalWrite(pinOUT_Trigger, LOW);
+  delayMicroseconds(2);
+
+  // Sets the pinOUT_Trigger on HIGH state for 10 micro seconds
+  digitalWrite(pinOUT_Trigger, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pinOUT_Trigger, LOW);
+
+  // Reads the pinIN_Echo, returns the sound wave travel time in microseconds
+  tiempo_ida_y_vuelta = pulseIn(pinIN_Echo, HIGH);
+
+  if(tiempo_ida_y_vuelta >= 3000 ){//Mas de 50CM
+    return 0;
+  }
+
+
+  return CalcularDistanciaSensorUltrasonico(tiempo_ida_y_vuelta);
+}
+
+long CalcularDistanciaSensorUltrasonico(long tiempo_ida_y_vuelta){
+  /*
+    _______________________________________________
+   |-----------------------------------------------|
+   |                FORMULA GENERAL                |
+   |-----------------------------------------------|
+   |         Velocidad = Distancia/Tiempo          |
+   |-----------------------------------------------|   
+   |Velocidad del sonido =  340 m/s = 0.034 cm/µs  |
+   |-----------------------------------------------|
+   |  Distancia = Velocidad * Tiempo               |
+   |-----------------------------------------------|
+   |  Distancia = tiempo_ida_y_vuelta * (velocidad del sonido)  |
+   |-----------------------------------------------|
+   Nota: Como solo estamos calculando la distancia de ida,
+   y el sensor HC-SR04 Manda un pulso de ida y regreso, 
+   dividimos entre dos y obtenemos la distancia correcta.
+   */
+  return (tiempo_ida_y_vuelta * 0.034) / 2;
+}
+
